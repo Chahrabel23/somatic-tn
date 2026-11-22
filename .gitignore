@@ -1,0 +1,6 @@
+results/
+logs/
+.snakemake/
+test/data/
+test/sim/
+*.log
