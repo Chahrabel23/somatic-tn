@@ -1,2 +1,3 @@
-# Example outputs are shown for documentation; keep them out of the language statistics
-example_output/** linguist-documentation
+# Example outputs are documentation; keep them out of the language statistics
+example_output/** linguist-documentation=true
+*.html linguist-detectable=false
