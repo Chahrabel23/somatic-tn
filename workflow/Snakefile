@@ -1,0 +1,37 @@
+# somatic-tn
+# Tumour-normal somatic variant calling for targeted DNA panels:
+# FASTQ -> QC -> BAM -> Mutect2 -> filtering -> VEP -> CNVkit -> report
+#
+# Author: Chahrazed Belhout
+
+from snakemake import __version__ as SNAKEMAKE_VERSION
+from snakemake.utils import min_version
+
+min_version("8.0")
+
+configfile: "config/config.yaml"
+
+PIPELINE_VERSION = "0.1.0"
+
+
+include: "rules/common.smk"
+include: "rules/reference.smk"
+include: "rules/align.smk"
+include: "rules/qc.smk"
+include: "rules/versions.smk"
+include: "rules/somatic.smk"
+include: "rules/annotate.smk"
+include: "rules/cnv.smk"
+include: "rules/report.smk"
+
+
+rule all:
+    input:
+        expand("results/report/{pair}.report.html", pair=PAIRS),
+        expand("results/somatic/{pair}/{pair}.variants.tsv", pair=PAIRS),
+        expand("results/cnv/{pair}/{pair}.cnv_segments.tsv", pair=PAIRS),
+        expand("results/benchmark/{pair}.benchmark.tsv", pair=TRUTH),
+        expand("results/benchmark/{pair}.cnv_benchmark.tsv", pair=TRUTH_CNV),
+        "results/multiqc/multiqc_report.html",
+        "results/pipeline_info/software_versions.tsv",
+        "results/pipeline_info/input_checksums.md5",

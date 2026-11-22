@@ -1,0 +1,5 @@
+patient	sample	status	fq1	fq2
+NFCORE	NFC_N	normal	test/data/test_1.fastq.gz	test/data/test_2.fastq.gz
+NFCORE	NFC_T	tumour	test/data/test2_1.fastq.gz	test/data/test2_2.fastq.gz
+SIM	SIM_N	normal	test/sim/SIM_N_R1.fastq.gz	test/sim/SIM_N_R2.fastq.gz
+SIM	SIM_T	tumour	test/sim/SIM_T_R1.fastq.gz	test/sim/SIM_T_R2.fastq.gz

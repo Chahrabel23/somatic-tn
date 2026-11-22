@@ -1,0 +1,42 @@
+# Test run on public data (nf-core chr22 slice) + a simulated pair with a truth set.
+#   bash test/download_test_data.sh
+#   python test/simulate_tumour_normal.py test/data/genome.fasta test/targets_test.bed test/sim
+#   snakemake --use-conda --cores 4 --configfile test/config_test.yaml
+run_id: "TEST_chr22"
+samples: "test/samples_test.tsv"
+
+reference:
+  fasta: "test/data/genome.fasta"
+  gtf: "test/data/genome.gtf"
+  targets: "test/targets_test.bed"
+  known_sites:
+    - "test/data/dbsnp_146.hg38.vcf.gz"
+    - "test/data/mills_and_1000G.indels.vcf.gz"
+  germline_resource: "test/data/gnomAD.r2.1.1.vcf.gz"
+  common_snps: "test/data/gnomAD.r2.1.1.vcf.gz"
+  panel_of_normals: ""
+
+truth:
+  SIM_T_vs_SIM_N: "test/sim/truth_somatic.vcf"
+truth_cnv:
+  SIM_T_vs_SIM_N: "test/sim/truth_cnv.bed"
+
+params:
+  java_opts: "-Xmx3g"
+  fastp: "--detect_adapter_for_pe --length_required 36"
+  bwa: "-K 100000000 -Y"
+  mutect2: ""
+  filter_mutect: ""
+  mosdepth_thresholds: "100,250,500"
+  cnvkit_method: "hybrid"
+  cnvkit_segment: "cbs"
+  vep: "--symbol --hgvs --canonical --biotype --numbers --variant_class --flag_pick"
+
+qc:
+  min_mean_coverage: 250
+  min_pct_target_250x: 90
+  max_duplication: 0.6
+  min_q30_rate: 0.85
+  max_contamination: 0.05
+  min_tumour_depth: 100
+  min_tumour_vaf: 0.02

@@ -1,0 +1,6 @@
+name: somatic-tn
+channels: [conda-forge, bioconda]
+dependencies:
+  - python>=3.11
+  - snakemake>=8
+  - wgsim        # only for the simulated test data

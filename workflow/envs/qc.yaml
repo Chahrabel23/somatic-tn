@@ -1,0 +1,4 @@
+channels: [conda-forge, bioconda]
+dependencies:
+  - mosdepth=0.3
+  - multiqc=1.35

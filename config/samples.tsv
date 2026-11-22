@@ -1,0 +1,3 @@
+patient	sample	status	fq1	fq2
+P001	P001_N	normal	/path/to/P001_N_R1.fastq.gz	/path/to/P001_N_R2.fastq.gz
+P001	P001_T	tumour	/path/to/P001_T_R1.fastq.gz	/path/to/P001_T_R2.fastq.gz

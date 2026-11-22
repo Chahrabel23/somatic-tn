@@ -1,0 +1,9 @@
+stratum	truth	called_tp	fn	fp	recall	precision
+ALL	65	53	12	1	0.815	0.981
+SNV	50	41	9	0	0.820	1.000
+INDEL	15	12	3	1	0.800	0.923
+VAF=0.3	13	13	0		1.000	
+VAF=0.1	13	13	0		1.000	
+VAF=0.05	13	13	0		1.000	
+VAF=0.02	13	11	2		0.846	
+VAF=0.01	13	3	10		0.231	

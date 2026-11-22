@@ -1,0 +1,44 @@
+# somatic-tn: configuration template
+# Copy this file, change the paths to your own reference bundle and run:
+#   snakemake --use-conda --cores 8 --configfile config/my_run.yaml
+
+run_id: "RUN001"
+
+# Tab-separated sample sheet: patient, sample, status (tumour/normal), fq1, fq2
+samples: "config/samples.tsv"
+
+reference:
+  fasta: "/path/to/GRCh38/genome.fa"
+  gtf: "/path/to/Homo_sapiens.GRCh38.gtf"          # Ensembl or GENCODE GTF, used by VEP offline
+  targets: "/path/to/panel_targets.bed"           # capture design BED, 4th column = gene name
+  known_sites:                                    # for BQSR
+    - "/path/to/dbsnp_146.hg38.vcf.gz"
+    - "/path/to/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz"
+  germline_resource: "/path/to/af-only-gnomad.hg38.vcf.gz"
+  common_snps: "/path/to/small_exac_common_3.hg38.vcf.gz"   # for GetPileupSummaries
+  panel_of_normals: ""                            # optional Mutect2 PoN, leave empty if none
+
+# Optional truth sets, one per pair, to benchmark the calls (validation runs only)
+truth: {}        # pair -> truth VCF of somatic SNVs/indels (INFO/VAF optional)
+truth_cnv: {}    # pair -> BED: chrom, start, end, label, expected copy number
+
+params:
+  java_opts: "-Xmx6g"
+  fastp: "--detect_adapter_for_pe --length_required 36"
+  bwa: "-K 100000000 -Y"
+  mutect2: ""
+  filter_mutect: ""
+  mosdepth_thresholds: "100,250,500"
+  cnvkit_method: "hybrid"          # hybrid (capture), amplicon or wgs
+  cnvkit_segment: "cbs"
+  vep: "--symbol --hgvs --canonical --biotype --numbers --variant_class --flag_pick"
+
+# QC acceptance criteria shown in the report (PASS / CHECK)
+qc:
+  min_mean_coverage: 250
+  min_pct_target_250x: 90
+  max_duplication: 0.6
+  min_q30_rate: 0.85
+  max_contamination: 0.05
+  min_tumour_depth: 100       # per variant, for the report table
+  min_tumour_vaf: 0.02
